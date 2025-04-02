@@ -28,27 +28,36 @@ int main(int argc, char *argv[])
 		SDL_Quit();
 	}
 
-	int running = 1;
-	SDL_Event event;
-	/*
-	while (running)
-	{
-		while (SDL_PollEvent(&event))
-		{
-			if (event.type == SDL_QUIT)
-			{
-				running = 0;
-			}
-		}
-	}
-		*/
-	
 	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
 	SDL_RenderClear(renderer);
 	SDL_Texture *image = loadImage("img/menu.jpg",renderer);
 	SDL_RenderCopy(renderer, image, NULL, NULL);
 	SDL_RenderPresent(renderer);
-	SDL_Delay(10000);
+
+	SDL_Event event;
+
+	int continuer = 1;
+	
+	while (SDL_PollEvent(&event) || continuer==1){
+		switch (event.type)
+		{
+			case SDL_QUIT:
+				continuer=0;
+				break;
+				case SDL_KEYDOWN:
+				switch(event.key.keysym.sym){
+					case SDLK_ESCAPE:
+					continuer=0 ;
+						SDL_Log("appuie sur la touche 1");
+				}
+		
+		}
+	}
+		
+	
+		
+	
+	
 
 	SDL_DestroyTexture(image);
 	SDL_DestroyRenderer(renderer);
