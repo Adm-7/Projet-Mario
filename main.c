@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 	
 	while (SDL_PollEvent(&event) || continuer==1){
 		switch (event.type)
-		{
+		{.
 			case SDL_QUIT:
 				continuer=0;
 				break;
