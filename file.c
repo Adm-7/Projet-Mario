@@ -42,3 +42,18 @@ void LibererMap(Map* map, Sprites* sprites)
 {
     
 }
+
+// Fonction pour lire le fichier de niveau
+void LireLevel0(){
+    FILE *fichier=fopen("level/niveau0.lvl","r");
+    if(fichier == NULL){
+        perror("Probleme lors de l'ouverture du niveau");
+    }
+    char ligne[100];
+    fgets (ligne, sizeof(ligne),fichier);
+    
+    int largeur, hauteur;
+    fscanf(fichier,"%d %d" , &largeur, &hauteur);
+    printf("Largeur %d et Longeur %d" , largeur , hauteur);
+    fclose (fichier);
+    }
