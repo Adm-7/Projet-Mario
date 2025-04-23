@@ -47,8 +47,13 @@ int main(int argc, char *argv[])
 				case SDL_KEYDOWN:
 				switch(event.key.keysym.sym){
 					case SDLK_ESCAPE:
-					continuer=0 ;
-						SDL_Log("appuie sur la touche 1");
+						continuer=0 ;
+						break;
+					case SDLK_1:
+						jouer(renderer);
+						continuer =0;
+						SDL_Log("appuie sur la touche esp");
+						break;
 				}
 		
 		}
