@@ -29,6 +29,8 @@ et la map.
     };
 
     SDL_Texture *loadImage(const char path[], SDL_Renderer *renderer);
+    void AfficherMap(Map* map) ;
+    void LireLevel0(Map* map) ;
     void LibererMap(Map* map, Sprites* sprites);
 
 #endif
