@@ -23,31 +23,18 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    // Récupérer les dimensions de l'écran
-    SDL_DisplayMode displayMode;
-    if (SDL_GetCurrentDisplayMode(0, &displayMode) != 0) {
-        fprintf(stderr, "Erreur SDL_GetCurrentDisplayMode : %s\n", SDL_GetError());
-        IMG_Quit();
-        SDL_Quit();
-        return EXIT_FAILURE;
-    }
+    // Définir les dimensions de la fenêtre
+    int screenWidth = 1000;  // Largeur de la fenêtre
+    int screenHeight = 1000; // Hauteur de la fenêtre
 
-    SDL_Window *fenetre = SDL_CreateWindow(
-		"la fenetre",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		0, 0, // Les dimensions sont ignorées en mode plein écran
-		SDL_WINDOW_FULLSCREEN
-	);
-
-    // Créer une fenêtre en mode plein écran
+    // Créer une fenêtre en mode fenêtré
     SDL_Window *fenetre = SDL_CreateWindow(
         "la fenetre",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        screenWidth,
-        screenHeight,
-        SDL_WINDOW_FULLSCREEN
+        LARGEUR_FENETRE,
+        HAUTEUR_FENETRE,
+        0 // Mode fenêtré
     );
     if (fenetre == NULL) {
         fprintf(stderr, "Erreur SDL_CreateWindow : %s\n", SDL_GetError());

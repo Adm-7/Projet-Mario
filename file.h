@@ -8,10 +8,10 @@ et la map.
     
     #include <SDL2/SDL.h>
 
-    #define NbSprites 10 // À modifier si on ajouter des sprites
-    #define Size_Sprite 40 // A modifier si on change taille sprite
-    #define LARGEUR_FENETRE 1200 //taille de la fenetre
-    #define HAUTEUR_FENETRE 1200 //taille de la fenetre
+    #define NbSprites 11 // À modifier si on ajouter des sprites
+    #define Size_Sprite 30 // A modifier si on change taille sprite
+    #define LARGEUR_FENETRE 900 //taille de la fenetre
+    #define HAUTEUR_FENETRE 900 //taille de la fenetre
 
     typedef struct Map Map;
     struct Map
@@ -30,7 +30,8 @@ et la map.
 
     SDL_Texture *loadImage(const char path[], SDL_Renderer *renderer);
     void AfficherMap(Map* map) ;
-    void LireLevel0(Map* map) ;
+    void LireLevel1(Map* map) ;
     void LibererMap(Map* map, Sprites* sprites);
+    void AfficherMapAvecScrolling(Map* map, Sprites* sprites, SDL_Renderer* renderer, int xscroll);
 
 #endif

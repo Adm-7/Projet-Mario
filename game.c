@@ -3,12 +3,19 @@
 #include "charactere.h"
 #include "event.h"
 
-void AfficherMapAvecSprites(Map* map, Sprites* sprites, SDL_Renderer* renderer) {
+void AfficherMapAvecScrolling(Map* map, Sprites* sprites, SDL_Renderer* renderer, int xscroll) {
+    int startCol = xscroll / Size_Sprite; // Colonne de départ
+    int endCol = startCol + (LARGEUR_FENETRE / Size_Sprite) + 1; // Colonne de fin (+1 pour éviter les artefacts)
+
+    if (endCol > map->width) {
+        endCol = map->width; // Empêcher de dépasser la largeur de la map
+    }
+
     for (int i = 0; i < map->height; i++) {
-        for (int j = 0; j < map->width; j++) {
+        for (int j = startCol; j < endCol; j++) {
             int spriteIndex = map->LoadedMap[i][j];
             if (spriteIndex >= 0 && spriteIndex < NbSprites) {
-                SDL_Rect dest = { j * Size_Sprite, i * Size_Sprite, Size_Sprite, Size_Sprite };
+                SDL_Rect dest = { (j - startCol) * Size_Sprite, i * Size_Sprite, Size_Sprite, Size_Sprite };
                 SDL_RenderCopy(renderer, sprites[spriteIndex].sprite, NULL, &dest);
             }
         }
@@ -16,46 +23,54 @@ void AfficherMapAvecSprites(Map* map, Sprites* sprites, SDL_Renderer* renderer) 
 }
 
 int jouer(SDL_Renderer* renderer) {
-    // Charger l'image et le personnage
-    SDL_Texture *image = loadImage("img", renderer);
-   
-    // Initialisation de la map
+    // Charger la map niveau1
     Map map = {0};
-    LireLevel0(&map);
+    LireLevel1(&map);
 
     // Initialisation des sprites
     Sprites sprites[NbSprites];
     InitialiserSprites(sprites, renderer);
 
     // Initialisation des variables
-    int continuer = 1; // À utiliser pour savoir si on continue la boucle du jeu ou si on arrête
-    SDL_Event event;   // Déclaration de l'événement
+    int continuer = 1;
+    SDL_Event event;
+    int xscroll = 0; // Position de défilement horizontal
 
     // Configuration de la couleur de fond (blanc)
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 
-    while (continuer) { // Coeur du jeu ici
+    while (continuer) {
         SDL_RenderClear(renderer);
 
-        // Afficher la map avec les sprites
-        AfficherMapAvecSprites(&map, sprites, renderer);
+        // Afficher la map avec scrolling
+        AfficherMapAvecScrolling(&map, sprites, renderer, xscroll);
 
         SDL_RenderPresent(renderer);
 
-        while (SDL_PollEvent(&event)) {  // Boucle qui gère les événements
+        while (SDL_PollEvent(&event)) {
             switch (event.type) {
-                case SDL_QUIT:  // Si l'utilisateur ferme la fenêtre
+                case SDL_QUIT:
                     continuer = 0;
                     break;
 
-                case SDL_KEYDOWN:  // Si une touche est pressée
+                case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
-                        case SDLK_ESCAPE:  // Si la touche échappe est pressée
+                        case SDLK_ESCAPE:
                             continuer = 0;
                             break;
 
-                        case SDLK_1:  // Si la touche '1' est pressée
-                            AfficherMapAvecSprites(&map, sprites, renderer); // Afficher la map avec les sprites
+                        case SDLK_RIGHT: // Défilement vers la droite
+                            xscroll += 10;
+                            if (xscroll > (map.width * Size_Sprite - LARGEUR_FENETRE)) {
+                                xscroll = map.width * Size_Sprite - LARGEUR_FENETRE;
+                            }
+                            break;
+
+                        case SDLK_LEFT: // Défilement vers la gauche
+                            xscroll -= 10;
+                            if (xscroll < 0) {
+                                xscroll = 0;
+                            }
                             break;
 
                         default:
@@ -69,17 +84,9 @@ int jouer(SDL_Renderer* renderer) {
         }
     }
 
-    // Libération des ressources une fois le jeu terminé
-    for (int i = 0; i < map.height; i++) {
-        free(map.LoadedMap[i]); // Libération de chaque ligne du tableau
-    }
-    free(map.LoadedMap); // Libération du tableau principal
-
-    for (int i = 0; i < NbSprites; i++) {
-        SDL_DestroyTexture(sprites[i].sprite); // Libération des textures des sprites
-    }
-
-    return continuer;  // Retourne la valeur de "continuer" pour quitter ou non
+    // Libération des ressources
+    LibererMap(&map, sprites);
+    return 0;
 }
 
 void InitialiserSprites(Sprites* sprites, SDL_Renderer* renderer) {
@@ -106,4 +113,16 @@ void InitialiserSprites(Sprites* sprites, SDL_Renderer* renderer) {
 
     sprites[7].sprite = loadImage("img/tuyau4.png", renderer);
     sprites[7].traverser = 0; // Tuyau partie 4
+
+    sprites[8].sprite = loadImage("img/fin1.png", renderer);
+    sprites[8].traverser = 0; // image fin 1 
+    
+    sprites[9].sprite = loadImage("img/fin2.png", renderer);
+    sprites[9].traverser = 0; // image fin 2
+
+    sprites[10].sprite = loadImage("img/", renderer);
+    sprites[10].traverser = 0; //  goombas 1
+    
+    
+
 }

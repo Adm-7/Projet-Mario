@@ -38,10 +38,10 @@ SDL_Texture *loadImage(const char path[], SDL_Renderer *renderer)
 }
 
 
-void LireLevel0(Map* map) {
-    FILE *fichier = fopen("level/niveau0.lvl", "r");
+void LireLevel1(Map* map) {
+    FILE *fichier = fopen("level/niveau1.lvl", "r");
     if (fichier == NULL) {
-        perror("Erreur lors de l'ouverture du fichier niveau0.lvl");
+        perror("Erreur lors de l'ouverture du fichier niveau1.lvl");
         return;
     }
 
@@ -64,8 +64,6 @@ void LireLevel0(Map* map) {
         fclose(fichier);
         return;
     }
-
-    printf("Largeur : %d, Hauteur : %d\n", largeur, hauteur);
 
     map->width = largeur;
     map->height = hauteur;
@@ -107,7 +105,7 @@ void LireLevel0(Map* map) {
     }
 
     fclose(fichier);
-    printf("Map chargée avec succès.\n");
+    printf("Map niveau1 chargée avec succès.\n");
 }
 
 void AfficherMap(Map* map) {
@@ -124,3 +122,22 @@ void AfficherMap(Map* map) {
         printf("\n");
     }
 }
+void LibererMap(Map* map, Sprites* sprites) {
+    // Libération des ressources de la map
+    if (map->LoadedMap != NULL) {
+        for (int i = 0; i < map->height; i++) {
+            free(map->LoadedMap[i]); // Libération de chaque ligne du tableau
+        }
+        free(map->LoadedMap); // Libération du tableau principal
+        map->LoadedMap = NULL; // Éviter les accès invalides
+    }
+
+    // Libération des textures des sprites
+    for (int i = 0; i < NbSprites; i++) {
+        if (sprites[i].sprite != NULL) {
+            SDL_DestroyTexture(sprites[i].sprite);
+            sprites[i].sprite = NULL; // Éviter les accès invalides
+        }
+    }
+}
+   
