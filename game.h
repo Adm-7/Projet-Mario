@@ -11,5 +11,6 @@ Mais ne contient pas les déclarations des différentes  fonctions utilisées.
     #include "charactere.h"
     #include "event.h"
 
-    int jouer(SDL_Renderer *renderer);
+    int jouer(SDL_Renderer* renderer);
+    void InitialiserSprites(Sprites* sprites, SDL_Renderer* renderer); // Déclaration ajoutée
 #endif
