@@ -8,6 +8,9 @@ et si le niveau est fini (win et loose).
     
     #include "file.h"
     #include "charactere.h"
+    #include "game.h"
+    #include <SDL2/SDL.h>
+    void gestionEvenement(SDL_Event *event, Personnage *perso);
 
   
 #endif

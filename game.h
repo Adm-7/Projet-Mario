@@ -7,6 +7,9 @@ Mais ne contient pas les déclarations des différentes  fonctions utilisées.
 #ifndef DEF_GAME
 #define DEF_GAME
     #include <SDL2/SDL.h>
-    
-    int jouer(SDL_Renderer* renderer);
+    #include "file.h"
+    #include "charactere.h"
+    #include "event.h"
+
+    int jouer(SDL_Renderer *renderer);
 #endif
