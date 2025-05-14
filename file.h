@@ -35,3 +35,4 @@ et la map.
     void AfficherMapAvecScrolling(Map* map, Sprites* sprites, SDL_Renderer* renderer, int xscroll);
 
 #endif
+sjs
