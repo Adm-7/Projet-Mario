@@ -116,14 +116,8 @@ if (tileX >= 0 && tileX < map.width && tileY >= 0 && tileY < map.height) {
 
         // Affichage
         SDL_RenderClear(renderer);
-        // Afficher la map avec scrolling
-        AfficherMapAvecScrolling(&map, sprites, renderer, scrollX);
+        
 
-        // Afficher Mario
-        SDL_Rect marioRect = { marioX - scrollX, marioY, Size_Sprite, Size_Sprite };
-        SDL_RenderCopy(renderer, sprites[1].sprite, NULL, &marioRect); // Utilisez un sprite pour Mario
-
-        SDL_RenderPresent(renderer);
         // Gérer les différentes actions
         while (SDL_PollEvent(&event)) {  // Boucle qui gère les événements
             switch (event.type) {
@@ -165,6 +159,8 @@ if (tileX >= 0 && tileX < map.width && tileY >= 0 && tileY < map.height) {
             }
         }
         gestionEvenement(&event, mario);
+        // Afficher la map avec scrolling
+        AfficherMapAvecScrolling(&map, sprites, renderer, scrollX);
         afficherPerso(mario, 1, 1, renderer);
         // À ce stade, tu devrais dessiner et mettre à jour les objets du jeu
         // Afficher la scène et mettre à jour l'écran
