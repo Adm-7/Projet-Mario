@@ -142,16 +142,16 @@ if (tileX >= 0 && tileX < map.width && tileY >= 0 && tileY < map.height) {
                             // Exemple : afficherMap(renderer, map, sprites);
                             break;
                         case SDLK_RIGHT: // Défilement vers la droite
-                            xscroll += 10;
-                            if (xscroll > (map.width * Size_Sprite - LARGEUR_FENETRE)) {
-                                xscroll = map.width * Size_Sprite - LARGEUR_FENETRE;
+                            scrollX += 10;
+                            if (scrollX > (map.width * Size_Sprite - LARGEUR_FENETRE)) {
+                                scrollX = map.width * Size_Sprite - LARGEUR_FENETRE;
                             }
                             break;
 
                         case SDLK_LEFT: // Défilement vers la gauche
-                            xscroll -= 10;
-                            if (xscroll < 0) {
-                                xscroll = 0;
+                            scrollX -= 10;
+                            if (scrollX < 0) {
+                                scrollX = 0;
                             }
                             break;
 

@@ -13,5 +13,5 @@ Mais ne contient pas les déclarations des différentes  fonctions utilisées.
 
     int jouer(SDL_Renderer* renderer);
     void InitialiserSprites(Sprites* sprites, SDL_Renderer* renderer); // Déclaration ajoutée
-    int jouer_niveau1(SDL_Renderer* renderer);
+   
 #endif

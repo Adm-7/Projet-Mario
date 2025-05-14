@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
                             continuer = 0;
                             break;
                         case SDLK_1:
-                            jouer_niveau1(renderer); // Appel de jouer_niveau1
+                            jouer(renderer); // Ap
                             continuer = 0;
                             SDL_Log("Appuie sur la touche 1");
                             break;
