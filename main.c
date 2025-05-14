@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
 
     // Charger l'image du menu
     SDL_Texture *image = loadImage("img/menu.jpg", renderer);
+    SDL_Texture *creditsTexture = loadImage("img/Credits.jpg", renderer);
     if (image == NULL) {
         fprintf(stderr, "Erreur chargement image : %s\n", SDL_GetError());
         SDL_DestroyRenderer(renderer);
@@ -68,10 +69,10 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    SDL_Event event; // Déclaration de la variable event
     SDL_RenderCopy(renderer, image, NULL, NULL);
     SDL_RenderPresent(renderer);
 
-    SDL_Event event;
     int continuer = 1;
 
     while (continuer) {
@@ -86,7 +87,7 @@ int main(int argc, char *argv[]) {
                             continuer = 0;
                             break;
                         case SDLK_1:
-                            jouer(renderer);
+                            jouer_niveau1(renderer); // Appel de jouer_niveau1
                             continuer = 0;
                             SDL_Log("Appuie sur la touche 1");
                             break;
