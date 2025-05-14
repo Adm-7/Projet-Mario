@@ -7,7 +7,9 @@ Mais ne contient pas les déclarations des différentes  fonctions utilisées.
 #ifndef DEF_GAME
 #define DEF_GAME
     #include <SDL2/SDL.h>
-    #include "file.h" // Inclure file.h pour accéder à la structure Sprites
+    #include "file.h"
+    #include "charactere.h"
+    #include "event.h"
 
     int jouer(SDL_Renderer* renderer);
     void InitialiserSprites(Sprites* sprites, SDL_Renderer* renderer); // Déclaration ajoutée

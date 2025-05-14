@@ -1,7 +1,5 @@
 #include "game.h"
-#include "file.h"
-#include "charactere.h"
-#include "event.h"
+#include "event.h" 
 
 void AfficherMapAvecScrolling(Map* map, Sprites* sprites, SDL_Renderer* renderer, int xscroll) {
     int startCol = xscroll / Size_Sprite; // Colonne de départ
@@ -22,7 +20,12 @@ void AfficherMapAvecScrolling(Map* map, Sprites* sprites, SDL_Renderer* renderer
     }
 }
 
-int jouer_niveau1(SDL_Renderer* renderer) {
+int jouer(SDL_Renderer* renderer) {
+      
+    // charger image et personnage.
+    Personnage *mario = malloc(sizeof(Personnage));
+    chargerMario(mario, renderer);
+
     // Charger la map niveau1
     Map map = {0};
     LireLevel1(&map);
@@ -30,6 +33,7 @@ int jouer_niveau1(SDL_Renderer* renderer) {
     // Initialisation des sprites
     Sprites sprites[NbSprites];
     InitialiserSprites(sprites, renderer);
+    
 
     // Variables pour Mario
     SDL_Event event;
@@ -112,7 +116,6 @@ if (tileX >= 0 && tileX < map.width && tileY >= 0 && tileY < map.height) {
 
         // Affichage
         SDL_RenderClear(renderer);
-
         // Afficher la map avec scrolling
         AfficherMapAvecScrolling(&map, sprites, renderer, scrollX);
 
@@ -121,10 +124,57 @@ if (tileX >= 0 && tileX < map.width && tileY >= 0 && tileY < map.height) {
         SDL_RenderCopy(renderer, sprites[1].sprite, NULL, &marioRect); // Utilisez un sprite pour Mario
 
         SDL_RenderPresent(renderer);
-        SDL_Delay(16); // Limiter à ~60 FPS
+        // Gérer les différentes actions
+        while (SDL_PollEvent(&event)) {  // Boucle qui gère les événements
+            switch (event.type) {
+                case SDL_QUIT:  // Si l'utilisateur ferme la fenêtre
+                    continuer = 0;
+                    break;
+
+                case SDL_KEYDOWN:  // Si une touche est pressée
+                    switch(event.key.keysym.sym) {
+                        case SDLK_ESCAPE:  // Si la touche échappe est pressée
+                            continuer = 0;
+                            break;
+
+                        case SDLK_1:  // Si la touche '1' est pressée
+                            // Ici tu peux ajouter le code pour afficher la map Mario
+                            // Exemple : afficherMap(renderer, map, sprites);
+                            break;
+                        case SDLK_RIGHT: // Défilement vers la droite
+                            xscroll += 10;
+                            if (xscroll > (map.width * Size_Sprite - LARGEUR_FENETRE)) {
+                                xscroll = map.width * Size_Sprite - LARGEUR_FENETRE;
+                            }
+                            break;
+
+                        case SDLK_LEFT: // Défilement vers la gauche
+                            xscroll -= 10;
+                            if (xscroll < 0) {
+                                xscroll = 0;
+                            }
+                            break;
+
+                default:
+                    break;
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+        gestionEvenement(&event, mario);
+        afficherPerso(mario, 1, 1, renderer);
+        // À ce stade, tu devrais dessiner et mettre à jour les objets du jeu
+        // Afficher la scène et mettre à jour l'écran
+        SDL_RenderPresent(renderer);
+
     }
 
     // Libération des ressources
+    freePersonnage(mario, NULL, 0);
+    free(mario);
     LibererMap(&map, sprites);
     return 0;
 }

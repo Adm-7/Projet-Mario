@@ -7,7 +7,10 @@ Attention la map doit déjà être chargé avant de créer un charactère.
 #ifndef DEF_CHARACTERE
 #define DEF_CHARACTERE
     
+    #include <stdlib.h>
+    #include <stdio.h>
     #include <SDL2/SDL.h>
+    #include <SDL2/SDL_image.h>
     #include "file.h"
 
     #define WIDTH_MARIO 30 //largeur des images mario
@@ -29,7 +32,8 @@ Attention la map doit déjà être chargé avant de créer un charactère.
         int lvl, lvlperdu;
     };
 
-    void chargerMario(Personnage* mario, SDL_Renderer *renderer);
+    void chargerMario(Personnage *mario, SDL_Renderer *renderer);
     void freePersonnage(Personnage* mario, Personnage **goomba, int nbGoomba);
     void afficherPerso(Personnage* mario, int xscroll, int yscroll, SDL_Renderer *renderer);
+    
 #endif
